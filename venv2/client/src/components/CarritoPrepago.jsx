@@ -9,7 +9,7 @@ function CarritoPrepago() {
   return (
     <>
       <div className="cart-dropdown">
-        <table className="cart-table">
+        <table className="cart-vista">
           <thead>
             <tr>
               <th>Imagen</th>

@@ -1,4 +1,5 @@
 import { useCart } from "../context/CarritoContext";
+import '../css/Carrito.css'
 
 function Carrito() {
   const {
@@ -42,7 +43,7 @@ function Carrito() {
                 <tr key={producto.cod_producto}>
                   <td>
                     <img
-                      src="D_NQ_NP_978928-MLC50613847725_072022-O.jpg"
+                      src="../../public/D_NQ_NP_978928-MLC50613847725_072022-O.jpg"
                       alt=""
                       style={{ width: "50px" }}
                     />

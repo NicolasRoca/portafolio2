@@ -1,149 +1,173 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom"; // Importar useParams para obtener el ID de la URL
 import Navbar from "../components/Navbar";
-import Bienvenida from "../components/Bienvenida";
+import { getProducto } from "../api/cerveceria_API"; // Importar la función para obtener un producto
+import { useCart } from "../context/CarritoContext";
 import "../css/estilovistaproducto.css";
-//import "../css/font-awesome.min.css";
 
+function VistaProductoPage() {
+  const { id } = useParams(); // Obtener el ID del producto desde la URL
+  const [producto, setProducto] = useState(null); // Estado para almacenar la información del producto
+  const [loading, setLoading] = useState(true); // Estado para controlar el loading
+  const {
+    cartItems,
+    addToCart,
+    removeFromCart,
+    clearCartHandler,
+    toggleCart,
+    showCart,
+    setShowCart,
+  } = useCart();
 
-function vistaproductoPage() {
+  useEffect(() => {
+    async function fetchProducto() {
+      try {
+        const res = await getProducto(id); // Llamar a la API con el ID del producto
+        setProducto(res.data); // Almacenar la información del producto en el estado
+        setLoading(false); // Terminar el loading
+      } catch (error) {
+        console.error("Error al obtener el producto:", error); // Manejar errores
+        setLoading(false); // Terminar el loading incluso si hay un error
+      }
+    }
+
+    fetchProducto();
+  }, [id]);
+
+  if (loading) {
+    return <div>Loading...</div>; // Mostrar mensaje de loading mientras se carga el producto
+  }
+
+  if (!producto) {
+    return <div>No se encontró el producto</div>; // Mostrar mensaje si no se encontró el producto
+  }
+
   return (
-
     <div className="vista-producto">
-        
-      <div >
-        <Navbar/>
+      <div>
+        <Navbar
+          cartItems={cartItems}
+          removeFromCart={removeFromCart}
+          toggleCart={toggleCart}
+          showCart={showCart}
+          setShowCart={setShowCart}
+          clearCartHandler={clearCartHandler}
+        />
+      </div>
+      <hr />
+      <hr />
+      <hr />
+      <hr />
+      <div className="container-title center-container">
+        <h1>Detalles del Producto</h1>
+        <h2>{producto.nombre_producto}</h2>
       </div>
 
-        <div className="container-title">Productos</div>
+      <main>
+        {/*         <div className="container-img">
+          <img
+            src={producto.imagen || "images.jpeg"} // Mostrar la imagen del producto o una por defecto
+            alt="imagen-producto"
+          />
+        </div> */}
+        <div className="container-img">
+          <img
+            src="../../public/images.jpeg" // Mostrar la imagen del producto o una por defecto
+            alt="imagen-producto"
+          />
+        </div>
 
-        <main>
-          <div className="container-img">
-            <img
-              src="cuello-cerveza-artesanal1111.png"
-              alt="imagen-producto"
-            />
-          </div>
-          <div className="container-info-product">
-            <div className="container-price">
-              <span>$10.000</span>
-              <i className="fa-solid fa-angle-right"></i>
-            </div>
-
-            <div className="container-add-cart">
-              <div className="container-quantity">
-                <input
-                  type="number"
-                  placeholder="1"
-                  value="1"
-                  min="1"
-                  className="input-quantity"  
-                />
-                 
-                <div class="btn-increment-decrement">
-							<i class="fa-solid fa-chevron-up" id="increment"></i>
-							<i class="fa-solid fa-chevron-down" id="decrement"></i>
-						</div>
-            
-              </div>
-              <br />
-              <button className="btn-add-to-cart">
-                <i className="fa-solid fa-plus"></i>
-                Añadir al carrito
-              </button>
+        <div className="container-info-product">
+          <div className="container-description">
+            <div className="title-description">
+              <h2>Descripcion</h2>
+              <i className="fa-solid fa-chevron-down"></i>
             </div>
 
-            <div className="container-description">
-              <div className="title-description">
-                <h4>Descripción</h4>
-                <i className="fa-solid fa-chevron-down"></i>
-              </div>
-              <div className="text-description">
-                <p>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Laboriosam iure provident atque voluptatibus reiciendis quae
-                  rerum, maxime placeat enim cupiditate voluptatum, temporibus
-                  quis iusto. Enim eum qui delectus deleniti similique? Lorem,
-                  ipsum dolor sit amet consectetur adipisicing elit. Sint autem
-                  magni earum est dolorem saepe perferendis repellat ipsam
-                  laudantium cum assumenda quidem quam, vero similique? Iusto
-                  officiis quod blanditiis iste?
-                </p>
-              </div>
-            </div>
-
-           
-          </div>
-        </main>
-
-        <section className="container-related-products">
-          <h2>Productos Relacionados</h2>
-          <div className="card-list-products">
-            <div className="card">
-              <div className="card-img">
-                <img src="Pack-Cerveza-Rural.jpg" alt="producto-1" />
-              </div>
-              <div className="info-card">
-                <div className="text-product">
-                  <h3>Cerveza -----</h3>
-                  <p className="category">Ver Producto</p>
-                </div>
-                <div className="price">$10.000</div>
-              </div>
-            </div>
-            <div className="card">
-              <div className="card-img">
-                <img src="Pack-Cerveza-Rural.jpg" alt="producto-2" />
-              </div>
-              <div className="info-card">
-                <div className="text-product">
-                  <h3>Cerveza -----</h3>
-                  <p className="category">Ver Producto</p>
-                </div>
-                <div className="price">$10.000</div>
-              </div>
-            </div>
-            <div className="card">
-              <div className="card-img">
-                <img src="Pack-Cerveza-Rural.jpg" alt="producto-3" />
-              </div>
-              <div className="info-card">
-                <div className="text-product">
-                  <h3>Cerveza -----</h3>
-                  <p className="category">Ver Producto</p>
-                </div>
-                <div className="price">$10.000</div>
-              </div>
-            </div>
-            <div className="card">
-              <div className="card-img">
-                <img src="Pack-Cerveza-Rural.jpg" alt="producto-4" />
-              </div>
-              <div className="info-card">
-                <div className="text-product">
-                  <h3>Cerveza ------</h3>
-                  <p className="category">Ver Producto</p>
-                </div>
-                <div className="price">$10.000</div>
-              </div>
+            <div className="text-description">
+              <p>{producto.descripcion_producto}</p>
+              {/* Mostrar la descripción del producto */}
             </div>
           </div>
-        </section>
+          <div className="text-description">
+            <h2>Grado alcoholico: {producto.grado_alcoholico}</h2>
+            {/* Mostrar la descripción del producto */}
+          </div>
+          <hr />
+          <div className="text-description">
+            <h2>Cantidad en CC: {producto.litros} CC</h2>
+            {/* Mostrar la descripción del producto */}
+          </div>
+          <hr />
+          <div className="container-quantity">
+            <h2>Stock disponible: {producto.stock_producto}</h2>
+          </div>
+          <hr />
+          <div className="container-price">
+            <h2>Precio: ${producto.precio_producto}</h2>
+            {/* Mostrar el precio del producto */}
+            <i className="fa-solid fa-angle-right"></i>
+          </div>
 
-        <footer>
-          <p>Footer</p>
-        </footer>
+          <div className="container-add-cart">
+            <div className="container-quantity">
+              <input
+                type="number"
+                placeholder="1"
+                defaultValue="1"
+                min="1"
+                className="input-quantity"
+              />
 
+              <div className="btn-increment-decrement">
+                <i className="fa-solid fa-chevron-up" id="increment"></i>
+                <i className="fa-solid fa-chevron-down" id="decrement"></i>
+              </div>
+            </div>
+            <br />
+            <button
+              className="btn-add-to-cart"
+              onClick={() => addToCart(producto)}
+            >
+              <i className="fa-solid fa-plus"></i>
+              Añadir al carrito
+            </button>
+          </div>
+        </div>
+      </main>
 
-        <script
-			src="https://kit.fontawesome.com/81581fb069.js"
-			crossorigin="anonymous"
-		></script>
+      <section className="container-related-products">
+        <h2>Productos Relacionados</h2>
+        <div className="card-list-products">
+          {/* Aquí puedes agregar lógica para mostrar productos relacionados */}
+          <div className="card">
+            <div className="card-img">
+              <img src="../../public/Pack-Cerveza-Rural.jpg" alt="producto-1" />
+            </div>
+            <div className="info-card">
+              <div className="text-product">
+                <h3>Cerveza -----</h3>
+                <p className="category">Ver Producto</p>
+              </div>
+              <div className="price">$10.000</div>
+            </div>
+          </div>
+          {/* Repite las tarjetas de productos relacionados según sea necesario */}
+        </div>
+      </section>
 
-    <script src='vistaproducto.js'></script>
+      <footer>
+        <p>Footer</p>
+      </footer>
 
+      <script
+        src="https://kit.fontawesome.com/81581fb069.js"
+        crossOrigin="anonymous"
+      ></script>
 
-      </div>  
+      <script src="vistaproducto.js"></script>
+    </div>
   );
 }
 
-export default vistaproductoPage;
+export default VistaProductoPage;

@@ -20,7 +20,11 @@ export const loginUsuario = (credenciales) =>{
   return cerveceriaAPI.post("/login/", credenciales)
 }
 
-export const getTokenTransbank = async () => {
+export const getProducto = (id) =>{
+  return cerveceriaAPI.get(`/productos/${id}`)
+}
+
+/* export const getTokenTransbank = async () => {
   try {
     const response = await axios.get(
       "http://localhost:3000/webpay_plus/getToken"
@@ -38,7 +42,7 @@ export const getTokenTransbank = async () => {
     throw error; // Relanzar el error para que el componente que llama pueda manejarlo
   }
 };
-
+ */
 export const createTransaction = async (amount) => {
   try {
     const response = await axios.post('http://localhost:3000/webpay_plus/create', { amount });

@@ -6,8 +6,9 @@ import ProductosPage from "./pages/ProductosPage";
 import PrepagoPage from "./pages/PrepagoPage";
 import ExitoPage from "./pages/ExitoPage";
 import PerfilUsuarioPage from "./pages/PerfilUsuarioPage";
-import VistaProducto from "./pages/VistaProducto"
+import VistaProducto from "./pages/VistaProducto";
 import AgregarProductoPage from "./pages/AgregarProductoPage";
+import NotFound from './components/NotFound'
 
 function App() {
   return (
@@ -20,8 +21,9 @@ function App() {
       <Route path="/prepago" element={<PrepagoPage />} />
       <Route path="/exito" element={<ExitoPage />} />
       <Route path="/perfil" element={<PerfilUsuarioPage />} />
-      <Route path="/vistaproducto" element={<VistaProducto />} />
-      <Route path="/agregar-producto" element={<AgregarProductoPage />}></Route>
+      <Route path="/producto/:id" element={<VistaProducto />} />
+      <Route path="/agregar-producto" element={<AgregarProductoPage />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

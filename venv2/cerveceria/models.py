@@ -57,6 +57,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.correo
+    
 #MODELO PRODUCTO CERVEZAS
 class Producto(models.Model):
     cod_producto = models.IntegerField(primary_key=True, unique=True)

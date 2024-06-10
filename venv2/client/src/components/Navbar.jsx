@@ -18,6 +18,8 @@ function Navbar() {
 
   const logout = () => {
     localStorage.removeItem("usuario");
+    localStorage.removeItem("token")
+    localStorage.removeItem("carrito")
     history("/");
   };
 

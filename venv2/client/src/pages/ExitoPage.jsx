@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import CarritoExito from "../components/CarritoExito";
+import Navbar from '../components/Navbar'
 import "../css/ExitoPage.css";
 
 function ExitoPage() {
@@ -41,6 +42,11 @@ function ExitoPage() {
 
   return (
     <>
+      <Navbar />
+      <hr />
+      <hr />
+      <hr />
+      <hr />
       <div className="center-container">
         <h1>Confirmando transacción...</h1>
         {transactionData && (
